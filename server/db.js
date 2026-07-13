@@ -4,7 +4,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const db = new DatabaseSync(path.join(__dirname, 'buzzboard.db'));
+// Set DB_PATH to a persistent volume in production (e.g. /data/buzzboard.db).
+const db = new DatabaseSync(process.env.DB_PATH || path.join(__dirname, 'buzzboard.db'));
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS games (

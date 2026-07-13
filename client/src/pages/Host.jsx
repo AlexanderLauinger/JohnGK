@@ -108,11 +108,14 @@ export default function Host() {
 
 function Lobby({ state, code, hostKey, lanIp, emit }) {
   const [showRemote, setShowRemote] = useState(false);
+  // Only swap in the LAN IP when hosting from localhost (dev on your own
+  // machine). When deployed, the public origin is what phones can reach.
+  const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
   const base = useMemo(() => (
-    lanIp?.ip
+    isLocalhost && lanIp?.ip
       ? `http://${lanIp.ip}:${window.location.port || lanIp.port}`
       : window.location.origin
-  ), [lanIp]);
+  ), [lanIp, isLocalhost]);
   const joinUrl = `${base}/play/${code}`;
   const remoteUrl = `${base}/remote/${code}#${hostKey}`;
 
