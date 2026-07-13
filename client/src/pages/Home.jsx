@@ -59,7 +59,7 @@ export default function Home() {
           <button className="btn btn-primary" onClick={createGame}>+ New game</button>
         </div>
         {error && <p style={{ color: 'var(--red)' }}>{error}</p>}
-        {games.length === 0 && !error && <p className="muted">No games yet — create your first one.</p>}
+        {games.length === 0 && !error && <p className="muted">Create your first game to get started!</p>}
         {games.map(g => (
           <div key={g.id} className="game-list-item">
             <div>
