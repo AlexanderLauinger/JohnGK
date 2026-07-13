@@ -1,0 +1,15 @@
+{
+  "name": "john-gk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "John G.K. — game show style party game creator with phone buzzers",
+  "scripts": {
+    "setup": "npm install --prefix server && npm install --prefix client",
+    "dev": "concurrently -n server,client -c blue,magenta \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "build": "npm run build --prefix client",
+    "start": "npm run build && npm start --prefix server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
