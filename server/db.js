@@ -69,7 +69,7 @@ export function createGame(data) {
 export function getGame(id) {
   const row = db.prepare('SELECT * FROM games WHERE id = ?').get(id);
   if (!row) return null;
-  return { id: row.id, ...migrate(JSON.parse(row.data)) };
+  return { id: row.id, updatedAt: row.updated_at, ...migrate(JSON.parse(row.data)) };
 }
 
 // Legacy rows (edit_key NULL, created before keys existed) stay editable.
@@ -89,8 +89,4 @@ export function updateGame(id, data, key) {
 export function deleteGame(id, key) {
   if (!authorized(id, key)) return 'forbidden';
   return db.prepare('DELETE FROM games WHERE id = ?').run(id).changes > 0;
-}
-
-export function listGames() {
-  return db.prepare('SELECT id, title, updated_at FROM games ORDER BY updated_at DESC LIMIT 100').all();
 }

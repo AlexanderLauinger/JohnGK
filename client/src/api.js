@@ -25,7 +25,17 @@ export function rememberEditKey(id, key) {
 }
 
 export const api = {
-  listGames: () => fetch('/api/games').then(j),
+  // "Your games" = the games whose edit keys are stored in this browser.
+  listGames: async () => {
+    const ids = Object.keys(keys());
+    const results = await Promise.all(
+      ids.map(id => fetch(`/api/games/${id}`).then(j).catch(() => null))
+    );
+    return results
+      .filter(Boolean)
+      .map(g => ({ id: g.id, title: g.title, updated_at: g.updatedAt || 0 }))
+      .sort((a, b) => b.updated_at - a.updated_at);
+  },
   createGame: async (data) => {
     const g = await fetch('/api/games', {
       method: 'POST',

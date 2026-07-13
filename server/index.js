@@ -26,7 +26,8 @@ app.use('/api/tts', limiter(40));         // TTS synth is the priciest call
 app.post('/api/games', limiter(15));      // game creation: 15/min stops spam
 
 // ---- REST: game CRUD ----
-app.get('/api/games', (req, res) => res.json(db.listGames()));
+// No public listing: games are only reachable by id (link) — the home page
+// shows just the games whose edit keys live in your browser.
 app.post('/api/games', (req, res) => res.json(db.createGame(req.body?.data)));
 app.get('/api/games/:id', (req, res) => {
   const g = db.getGame(req.params.id);
